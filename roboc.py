@@ -36,9 +36,18 @@ except:
 
 # if there isn't any saved game then ask user to choose a map then init the game
 if (not game) or (game.labyrinthe.hasExited):
-	map = input("Entrez un numéro de labyrinthe pour commencer à jouer : ")
-	map = int(map) - 1
+	while True:
+		try:
+			map = input("Entrez un numéro de labyrinthe pour commencer à jouer : ")
+			map = int(map) - 1
+			if map < 0 or map >= len(cartes):
+				raise ValueError
+			break
+		except ValueError:
+			print("Numéro de labyrinthe incorrect ! Merci de resaisir !")
+				
 	game = Game(cartes[map].nom, cartes[map].labyrinthe)
+	print("On commence : carte {0}".format(game.mapName))
 else:
 	print("On reprend le jeu précédent : carte {0}".format(game.mapName))
 
