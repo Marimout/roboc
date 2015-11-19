@@ -35,16 +35,29 @@ except:
 	game = None
 
 # if there isn't any saved game then ask user to choose a map then init the game
-if not game:
+if (not game) or (game.labyrinthe.hasExited):
 	map = input("Entrez un numéro de labyrinthe pour commencer à jouer : ")
 	map = int(map) - 1
 	game = Game(cartes[map].nom, cartes[map].labyrinthe)
+else:
+	print("On reprend le jeu précédent : carte {0}".format(game.mapName))
 
 while True:
 	print(game.labyrinthe)
 	m = input("Enter a move : ")
-	exit = game.labyrinthe.move(m)
-	if exit:
+
+	game.labyrinthe.move(m)
+
+	# dump the game after each move
+	with open("savedgame.txt", "wb") as savedFile:
+		pickler = pickle.Pickler(savedFile)
+		pickler.dump(game)
+
+	if game.labyrinthe.hasExited:
 		print("Félicitation ! Vous avez gagné !")
+		break
+
+	if m.upper() == 'Q':
+		print("Au revoir ! A bientôt !")
 		break
 

@@ -7,6 +7,7 @@ class Labyrinthe:
 	"""Classe représentant un labyrinthe."""
 	def __init__(self, labyrintheString):
 		self.lab = labyrintheString.split('\n')
+		self.hasExited = False
 
 		for i, line in enumerate(self.lab):
 			for j in range(len(line)):
@@ -74,6 +75,9 @@ class Labyrinthe:
 
 			self.robot = (row, col - stepCount)
 
+		else:
+			return False
+
 		return True
 
 	def move(self, m):
@@ -83,10 +87,10 @@ class Labyrinthe:
 			m = m[:1]
 
 		if not self.tryMove(m, step):
-			print("Incorrect move !")
+			print("Incorrect move !\n")
 
 		if self.robot == self.exit:
-			return True
+			self.hasExited = True
 		else:
-			return False
+			self.hasExited = False
 

@@ -12,7 +12,5 @@ class Carte:
 		self.nom = nom
 		self.labyrinthe = Labyrinthe(chaine)
 
-		print(self.labyrinthe)
-
 	def __repr__(self):
 		return "<Carte {}>".format(self.nom)
