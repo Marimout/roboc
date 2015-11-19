@@ -12,7 +12,7 @@ class Labyrinthe:
 			for j in range(len(line)):
 				if line[j] == 'X':
 					self.robot = (i,j)
-					line = line[:j] + ' ' + line[j+1:]
+					self.lab[i] = line[:j] + ' ' + line[j+1:]
 					break
 				elif line[j] == 'U':
 					self.exit = (i,j)
@@ -38,7 +38,7 @@ class Labyrinthe:
 			if row < stepCount:
 				return False
 			
-			for i in range(stepCount):
+			for i in range(stepCount+1):
 				if self.lab[row - i][col] == 'O':
 					return False
 
@@ -48,7 +48,7 @@ class Labyrinthe:
 			if len(self.lab[row]) <= col + stepCount:
 				return False
 			
-			for i in range(stepCount):
+			for i in range(stepCount+1):
 				if self.lab[row][col + i] == 'O':
 					return False
 
@@ -58,7 +58,7 @@ class Labyrinthe:
 			if len(self.lab) <= row + stepCount:
 				return False
 			
-			for i in range(stepCount):
+			for i in range(stepCount+1):
 				if self.lab[row + i][col] == 'O':
 					return False
 
@@ -68,7 +68,7 @@ class Labyrinthe:
 			if col < stepCount:
 				return False
 			
-			for i in range(stepCount):
+			for i in range(stepCount+1):
 				if self.lab[row][col - i] == 'O':
 					return False
 
@@ -78,7 +78,7 @@ class Labyrinthe:
 
 	def move(self, m):
 		step = 1
-		if len(m) == 2:
+		if len(m) > 1:
 			step = int(m[1:])
 			m = m[:1]
 
