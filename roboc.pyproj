@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{ee5b93a1-36e5-4441-83c7-bcc67f2ecc21}</ProjectGuid>
     <ProjectHome />
-    <StartupFile>roboc.py</StartupFile>
+    <StartupFile>serveur.py</StartupFile>
     <SearchPath />
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
@@ -22,11 +22,26 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="carte.py" />
+    <Compile Include="client.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="clientClass.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="game.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="labyrinthe.py" />
     <Compile Include="roboc.py" />
+    <Compile Include="serverClass.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="serveur.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="tools.py">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="cartes\facile.txt" />
