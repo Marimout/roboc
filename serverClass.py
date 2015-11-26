@@ -2,9 +2,11 @@
 
 import socket
 import select
+import pickle
 
 class Server:
     """Class representing the server"""
+    MSG_LEN = 1024
 
     connectedClients = []
 
@@ -44,25 +46,26 @@ class Server:
                 else:
                     #read command sent by clients
                     for client in toReadClient:
-                        msg = client.recv(1024).decode()
+                        msg = client.recv(self.MSG_LEN).decode().rstrip()
                         if msg == "c":
                             print(">>>> START <<<<<")
                             self.sendStringAll("START")
                             return
 
-    def send(self, conn, obj):
-        conn.send(obj)
+    def sendObject(self, conn, obj):
+        conn.send(pickle.dumps(obj))
 
-    def sendAll(self, obj):
+    def sendObjectAll(self, obj):
         for conn in self.connectedClients:
-            conn.send(obj)
+            conn.send(pickle.dumps(obj))
 
     def sendString(self, conn, msg):
-        conn.send(msg.encode())
+        """Send a string to a specific connection"""
+        conn.send(msg.ljust(self.MSG_LEN).encode())
 
     def sendStringAll(self, msg):
         for conn in self.connectedClients:
-            conn.send(msg.encode())
+            conn.send(msg.ljust(self.MSG_LEN).encode())
 
     def __repr__(self, **kwargs):
         return "<Server listening on {0}>".format(self.port)

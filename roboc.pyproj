@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{ee5b93a1-36e5-4441-83c7-bcc67f2ecc21}</ProjectGuid>
     <ProjectHome />
-    <StartupFile>serveur.py</StartupFile>
+    <StartupFile>client.py</StartupFile>
     <SearchPath />
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
