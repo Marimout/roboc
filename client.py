@@ -2,6 +2,7 @@
 
 import time
 import sys
+import re
 
 from threading import *
 
@@ -13,7 +14,9 @@ myTurn = False
 command = ""
 
 def isValidCommand(c):
-    return True
+    """Check if a command is valid"""
+    x = re.match("^['N','S','E','O']\d*$|^P['N','S','E','O']$|^M['N','S','E','O']$", c.upper())
+    return x != None
     
 def getUserInput():
     global gameStarted
@@ -37,7 +40,8 @@ def getUserInput():
             if (isValidCommand(msg)):
                 command = msg
                 # wait for command to be handled by other thread
-                # TODO: why don't we handle/send the command here ?
+                # why don't we handle/send the command here ? : because we can still have remaining move in the pipe
+                # so we don't need to take other additional input
                 while command != "":
                     time.sleep(0.001)
         else:

@@ -35,7 +35,6 @@ class Server:
                 self.sendString(conn, "Welcome ! You're the client number {0}".format(len(self.connectedClients)))
                 self.sendStringAll("{0} clients connected".format(len(self.connectedClients)))
 
-            #TODO : Separate waiting for incoming connection and handling clients' command into 2 threads
             # if number of clients is >= 2 then listen to clients and start the game if a "c" command is entered
             if (len(self.connectedClients) >=2):
                 toReadClient = []

@@ -43,72 +43,59 @@ class Labyrinthe:
 
         return rep
 
-    def tryMove(self, robot, m, stepCount):
+    def tryMove(self, robot, m):
         row = robot[0]
         col = robot[1]
 
         if m.upper() == 'N':
-            if row < stepCount:
-                return False
-            
-            for i in range(stepCount+1):
-                if self.lab[row - i][col] == 'O':
-                    return False
-
-            robot = (row - stepCount, col)
-
+            if not self.isFree(row - 1, col):
+                return None;            
+            return (row - 1, col)
         elif m.upper() == 'E':    
-            if len(self.lab[row]) <= col + stepCount:
-                return False
-            
-            for i in range(stepCount+1):
-                if self.lab[row][col + i] == 'O':
-                    return False
-
-            robot = (row, col + stepCount)
-
+            if not self.isFree(row, col + 1):
+                return None
+            return (row, col + 1)
         elif m.upper() == 'S':
-            if len(self.lab) <= row + stepCount:
-                return False
-            
-            for i in range(stepCount+1):
-                if self.lab[row + i][col] == 'O':
-                    return False
-
-            robot = (row + stepCount, col)
-
-        elif m.upper() == 'O':    
-            if col < stepCount:
-                return False
-            
-            for i in range(stepCount+1):
-                if self.lab[row][col - i] == 'O':
-                    return False
-
-            robot = (row, col - stepCount)
-
+            if not self.isFree(row + 1, col):
+                return None
+            return (row + 1, col)
+        elif m.upper() == 'O':
+            if not self.isFree(row, col - 1):
+                return None
+            return (row, col - 1)
+        elif m[0].upper() == "P":
+            # TODO : break the wall
+            return None
+        elif m[0].upper() == "M":
+            # TODO : build the wall
+            return None
         else:
-            return False
+            return None
 
-        return True
+        return None
 
     def move(self, robot, m):
-        step = 1
-        if len(m) > 1:
-            step = int(m[1:])
-            m = m[:1]
-
-        if not self.tryMove(m, step):
+        """ Move the robot and return the new position"""
+        newRobot = self.tryMove(robot, m)
+        if newRobot == None:
             print("Incorrect move !\n")
+            return robot
 
-        if robot == self.exit:
+        if newRobot == self.exit:
             self.hasExited = True
         else:
             self.hasExited = False
+        
+        return newRobot
 
     def isFree(self, i, j):
+        """ Check if the case (i,j) is free (no obstacle, no other robot)"""
+        if i < 0 or i > len(self.lab) or j < 0 or j > len(self.lab[0]):
+            return False
+
         if self.lab[i][j] != ' ' and self.lab[i][j] != 'U':
             return False
+
         for client, robot in self.robots.items():
             if i == robot[0] and j == robot[1]:
                 return False
@@ -116,6 +103,7 @@ class Labyrinthe:
         return True
 
     def allFreeCase(self):
+        """ Return the list of all free cases of the labyrinth"""
         cases = []
         for i in range(len(self.lab)):
             for j in range(len(self.lab[i])):
